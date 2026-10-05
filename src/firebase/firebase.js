@@ -4,12 +4,12 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBPqV_SLHbFnVRXLgxxfpZq3r27sODFSMA",
-  authDomain: "yumi-store-efd7f.firebaseapp.com",
-  projectId: "yumi-store-efd7f",
-  storageBucket: "yumi-store-efd7f.firebasestorage.app",
-  messagingSenderId: "717447838600",
-  appId: "1:717447838600:web:41bb235b05e393e062583d",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyBPqV_SLHbFnVRXLgxxfpZq3r27sODFSMA",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "yumi-store-efd7f.firebaseapp.com",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "yumi-store-efd7f",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "yumi-store-efd7f.firebasestorage.app",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "717447838600",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:717447838600:web:41bb235b05e393e062583d",
 };
 
 const app = initializeApp(firebaseConfig);

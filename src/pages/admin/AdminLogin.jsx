@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login, getUserRole } from "../../firebase/authService";
+import { login, getUserRole } from "../../services/authService";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");

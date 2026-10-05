@@ -54,6 +54,7 @@ import Newsletter from "../pages/admin/Newsletter";
 import CancelledOrders from "../pages/admin/CancelledOrders";
 import Addresses from "../pages/customer/Addresses";
 import DiscountProduct from "../pages/admin/DiscountProduct";
+import AdminLogin from "../pages/admin/AdminLogin";
 function CustomerLayout({ children }) {
   return (
     <>
@@ -103,6 +104,7 @@ export default function AppRoutes() {
       <Route path="/addresses" element={<Addresses />} />
 
       {/* ---------- Admin ---------- */}
+      <Route path="/admin/login" element={<AdminLogin />} />
 
       <Route
         path="/admin"

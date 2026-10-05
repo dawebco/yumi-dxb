@@ -1,9 +1,9 @@
 import emailjs from "@emailjs/browser";
 
-const SERVICE_ID = "service_yumistore";
-const TEMPLATE_CONFIRMED = "template_kqy9egg"; // Confirmed/Packed
-const TEMPLATE_SHIPPED = "template_38o5enb"; // Replace with your new template ID
-const PUBLIC_KEY = "YnXngr7kxmzpWOIiq";
+const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || "service_yumistore";
+const TEMPLATE_CONFIRMED = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "template_kqy9egg"; // Confirmed/Packed
+const TEMPLATE_SHIPPED = import.meta.env.VITE_EMAILJS_TEMPLATE_SHIPPED_ID || "template_38o5enb"; // Replace with your new template ID
+const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "YnXngr7kxmzpWOIiq";
 
 export async function sendOrderStatusEmail({
   email,
