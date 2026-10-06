@@ -1,142 +1,170 @@
 import { Link } from "react-router-dom";
-import SectionTitle from "../common/SectionTitle";
 import { useEffect, useState } from "react";
 import { getAllProducts } from "../../firebase/productService";
+import { useCart } from "../../context/CartContext";
+import { FiHeart } from "react-icons/fi";
 
+// Fallback high-fashion products in case database is empty or loading
+import model1 from "../../assets/images/products/azure-bloom-model.png";
+import model2 from "../../assets/images/products/black-model.png";
+import model3 from "../../assets/images/products/crimson-bloom-model.png";
+import model4 from "../../assets/images/products/desert-rose-model.png";
 
+const FALLBACK_BESTSELLERS = [
+  {
+    id: "midi-dress",
+    name: "Classic Silk Midi Dress",
+    price: 6500,
+    image: model2,
+  },
+  {
+    id: "maxi-dress",
+    name: "Signature White Maxi",
+    price: 8400,
+    image: model1,
+  },
+  {
+    id: "starlight-abaya",
+    name: "Starlight Embellished Abaya",
+    price: 6800,
+    image: model3,
+  },
+  {
+    id: "cloud-kaftan",
+    name: "Cloud Tiered Kaftan",
+    price: 7000,
+    image: model4,
+  },
+];
 
 export default function BestSellers() {
-
   const [products, setProducts] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     loadProducts();
+    try {
+      const saved = JSON.parse(localStorage.getItem("wishlist")) || [];
+      setWishlist(saved);
+    } catch {
+      setWishlist([]);
+    }
   }, []);
 
   async function loadProducts() {
-    const data = await getAllProducts();
-
-    const bestProducts = data
-      .filter((product) => product.bestSeller === true)
-      .slice(0, 4);
-
-    setProducts(bestProducts);
+    try {
+      const data = await getAllProducts();
+      const best = (data || []).filter((p) => p.bestSeller === true).slice(0, 4);
+      if (best.length > 0) {
+        setProducts(best);
+      } else if (data && data.length > 0) {
+        setProducts(data.slice(0, 4));
+      } else {
+        setProducts(FALLBACK_BESTSELLERS);
+      }
+    } catch {
+      setProducts(FALLBACK_BESTSELLERS);
+    }
   }
 
+  const toggleWishlist = (productId) => {
+    const next = wishlist.includes(productId)
+      ? wishlist.filter((id) => id !== productId)
+      : [...wishlist, productId];
+    setWishlist(next);
+    localStorage.setItem("wishlist", JSON.stringify(next));
+    window.dispatchEvent(new Event("storage"));
+  };
+
+  const handleQuickAdd = async (product) => {
+    try {
+      await addToCart(product, "M", 1);
+      alert(`${product.name} added to your bag!`);
+    } catch {
+      // fallback
+    }
+  };
+
+  const displayList = products.length > 0 ? products : FALLBACK_BESTSELLERS;
+
   return (
-    <section className="py-10 bg-[#FAF8F5]">
-
-      <div className="max-w-7xl mx-auto px-6">
-
-        <SectionTitle
-          subtitle="Customer Favorites"
-          title="Best Sellers"
-          description="Loved by women who appreciate comfort, quality, and timeless elegance."
-        />
-
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-
-          {products.map((product) => (
-
-            <div
-              key={product.id}
-              className="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition duration-500"
-            >
-
-              {/* Image */}
-
-              <div className="relative overflow-hidden bg-[#F8F5F1]">
-
-  {product.discountActive && (
-    <span className="absolute top-5 left-5 z-10 bg-[#465348] text-whitetext-xs px-4 py-2 rounded-full tracking-wider">
-      {product.discountType === "percentage"
-        ? `${product.discountValue}% OFF`
-        : "SALE"}
-    </span>
-  )}
-
-  <img
-    src={product.images?.[0]}
-    alt={product.name}
-    className="w-full h-[420px] object-cover transition duration-700 group-hover:scale-105"
-  />
-
-</div>
-
-              {/* Details */}
-
-              <div className="p-6">
-
-                <span className="inline-block px-3 py-1 rounded-full bg-[#ECE5DA] text-xs tracking-widest uppercase text-[#8A7A67]">
-                  Best Seller
-                </span>
-
-                <h3 className="mt-4 text-xl font-serif text-[#2E2A27]">
-                  {product.name}
-                </h3>
-
-                <div className="flex items-center justify-between mt-4">
-
-  <div>
-    {product.discountActive ? (
-      <>
-        <p className="text-sm text-gray-400 line-through">
-          ₹{product.price}
-        </p>
-
-        <p className="text-xl font-bold text-red-600">
-          ₹{product.discountedPrice}
-        </p>
-
-        {product.discountType === "percentage" && (
-          <span className="inline-block mt-1 bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full">
-            {product.discountValue}% OFF
-          </span>
-        )}
-      </>
-    ) : (
-      <p className="text-lg font-semibold text-[#2E2A27]">
-        ₹{product.price}
-      </p>
-    )}
-  </div>
-
-  <span className="text-[#B89B72]">
-    ★ 4.9
-  </span>
-
-</div>
-
-                <Link
-                  to={`/product/${product.id}`}
-                  className="block mt-6 w-full py-3 rounded-full bg-[#465348] text-white text-center hover:bg-[#39443A] transition"
-                >  
-                  View Product
-                </Link>
-
-              </div>
-
-            </div>
-
-          ))}
-
-        </div>
-
-        {/* Button */}
-
-        <div className="text-center mt-16">
+    <section className="py-16 sm:py-24 bg-white text-neutral-900 border-b border-neutral-100">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8">
+        {/* Section Header */}
+        <div className="flex items-end justify-between mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-5xl font-editorial font-bold text-[#7E222A] tracking-tight">
+            Bestsellers
+          </h2>
 
           <Link
             to="/best-sellers"
-            className="inline-flex items-center px-8 py-4 border border-[#2E2A27] rounded-full hover:bg-[#2E2A27] hover:text-white transition"
+            className="px-6 py-2 border border-neutral-800 text-xs font-medium uppercase tracking-[0.15em] hover:bg-black hover:text-white transition duration-300"
           >
-            View All Best Sellers
+            View All
           </Link>
-
         </div>
 
-      </div>
+        {/* 4-Column Product Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+          {displayList.map((product) => {
+            const isWish = wishlist.includes(product.id);
+            const imageSrc =
+              product.images?.[0] || product.image || FALLBACK_BESTSELLERS[0].image;
 
+            return (
+              <div key={product.id} className="group flex flex-col">
+                {/* Image Container with Wishlist Icon */}
+                <div className="relative aspect-[3/4] bg-neutral-100 overflow-hidden">
+                  <Link to={`/product/${product.id}`} className="block h-full w-full">
+                    <img
+                      src={imageSrc}
+                      alt={product.name}
+                      className="w-full h-full object-cover object-top transition duration-700 group-hover:scale-105"
+                    />
+                  </Link>
+
+                  {/* Wishlist Toggle Button */}
+                  <button
+                    onClick={() => toggleWishlist(product.id)}
+                    className={`absolute top-3.5 right-3.5 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center transition shadow-sm hover:scale-110 ${
+                      isWish ? "text-[#7E222A]" : "text-neutral-600 hover:text-black"
+                    }`}
+                    aria-label="Wishlist"
+                  >
+                    <FiHeart
+                      className={`text-sm ${isWish ? "fill-current" : ""}`}
+                    />
+                  </button>
+                </div>
+
+                {/* Product Meta */}
+                <div className="pt-4 pb-2 flex-1 flex flex-col justify-between">
+                  <div>
+                    <Link
+                      to={`/product/${product.id}`}
+                      className="text-sm font-medium text-neutral-900 hover:text-[#7E222A] transition line-clamp-1"
+                    >
+                      {product.name}
+                    </Link>
+                    <p className="mt-1 text-sm font-semibold text-neutral-800">
+                      ₹{Number(product.price).toLocaleString()}
+                    </p>
+                  </div>
+
+                  {/* Add to Bag Outline Button (matching "В корзину" in mockup) */}
+                  <button
+                    onClick={() => handleQuickAdd(product)}
+                    className="mt-4 w-full py-2.5 border border-neutral-300 text-xs uppercase tracking-[0.15em] font-medium text-neutral-800 hover:border-black hover:bg-black hover:text-white transition duration-300"
+                  >
+                    Add to Bag
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </section>
   );
 }

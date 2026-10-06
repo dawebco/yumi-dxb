@@ -87,6 +87,9 @@ export default function AppRoutes() {
       <Route path="/new-arrivals" element={<CustomerLayout><NewArrivals /></CustomerLayout>} />
       <Route path="/best-sellers" element={<CustomerLayout><BestSellerPage /></CustomerLayout>} />
       <Route path="/our-story" element={<CustomerLayout><OurStoryPage /></CustomerLayout>} />
+      <Route path="/about" element={<CustomerLayout><OurStoryPage /></CustomerLayout>} />
+      <Route path="/about-us" element={<CustomerLayout><OurStoryPage /></CustomerLayout>} />
+      <Route path="/review-us" element={<CustomerLayout><Contact /></CustomerLayout>} />
       <Route path="/profile/orders" element={<CustomerLayout><OrderHistory /></CustomerLayout>} />
       <Route path="/profile/orders/:orderId" element={<CustomerLayout><OrderDetails /></CustomerLayout>} />
       <Route path="/order-confirmation/:orderId" element={<CustomerLayout><OrderConfirmation /></CustomerLayout>} />

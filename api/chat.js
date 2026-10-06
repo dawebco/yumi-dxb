@@ -15,7 +15,7 @@ Yumi Store customer-support facts:
 - Refunds take 5-7 business days after the returned item passes inspection.
 - Customized or personalized products cannot be returned.
 - The store accepts prepaid online payments only; Cash on Delivery is unavailable.
-- Phone support: +91 9591308536. Instagram: @yumi_dxb. Location: Mangaluru, Karnataka, India.
+- Phone support: +91 7349558926. Instagram: @yumi_dxb. Location: Mangaluru, Karnataka, India.
 `;
 
 function getClientIp(req) {

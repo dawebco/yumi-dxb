@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { logout } from "../../services/authService";
 import { useCart } from "../../context/CartContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import {
   FiSearch,
@@ -25,6 +25,8 @@ export default function Navbar() {
   const [shopOpen, setShopOpen] = useState(false);
   const shopMenuRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  const isHome = location.pathname === "/";
 
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -71,45 +73,56 @@ useEffect(() => {
   };
 }, []);
 
+useEffect(() => {
+  const handleScroll = () => {
+    if (window.scrollY > 40) {
+      setScrolled(true);
+    } else {
+      setScrolled(false);
+    }
+  };
 
+  handleScroll();
+  window.addEventListener("scroll", handleScroll, { passive: true });
+
+  return () => {
+    window.removeEventListener("scroll", handleScroll);
+  };
+}, []);
 
   return (
     <>
       <AnnouncementBar />
 
       <header
-        className={`sticky top-0 z-50 transition-all duration-500 ${
-          scrolled
-            ? "bg-white/95 backdrop-blur-xl border-b border-[#ECE8E3] shadow-sm"
-            : "bg-[#FAF8F5]/80 backdrop-blur-xl"
+        className={`sticky top-0 z-50 transition-all duration-300 ${
+          isHome
+            ? scrolled
+              ? "bg-white/95 backdrop-blur-xl border-b border-neutral-200 shadow-sm text-neutral-900 -mb-20"
+              : "bg-gradient-to-b from-black/60 via-black/20 to-transparent border-b border-transparent shadow-none text-white -mb-20"
+            : "bg-white/95 backdrop-blur-xl border-b border-neutral-200 shadow-sm text-neutral-900"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-8">
-
+        <div className="max-w-7xl mx-auto px-6 sm:px-8">
           <div className="h-20 flex items-center justify-between">
-
-            {/* Logo */}
-
-            <Link to="/" className="flex items-center">
-             <img
-                src={logo}
-                alt="YUMI DXB Fashion"
-                className="h-28 w-auto"
-              />
+            {/* Brand Logo / Wordmark */}
+            <Link to="/" className="flex items-center gap-3 group">
+              <span className="font-editorial text-2xl sm:text-3xl tracking-[0.25em] uppercase font-medium">
+                YUMI
+              </span>
+              <span className="text-[10px] tracking-[0.2em] uppercase opacity-70 hidden sm:inline-block border-l border-current pl-3">
+                DXB FASHION
+              </span>
             </Link>
 
             {/* Desktop Navigation */}
-
-            <nav className="hidden lg:flex items-center gap-10 text-[15px] font-medium">
-
+            <nav className="hidden lg:flex items-center gap-10 text-xs uppercase tracking-[0.2em] font-medium">
               <Link
-                to="/"
-                className="relative group"
+                to="/shop"
+                className="relative group transition-opacity hover:opacity-75"
               >
-                Home
-
-                <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[#C3A274] transition-all duration-300 group-hover:w-full"></span>
-
+                Catalog
+                <span className="absolute left-0 -bottom-1 w-0 h-[1.5px] bg-current transition-all duration-300 group-hover:w-full"></span>
               </Link>
 
               {/* Shop */}
@@ -216,10 +229,10 @@ useEffect(() => {
               </div>
 
               <Link
-                to="/our-story"
+                to="/about-us"
                 className="relative group"
               >
-                Our Story
+                About Us
 
                 <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[#C3A274] transition-all duration-300 group-hover:w-full"></span>
 
@@ -229,7 +242,7 @@ useEffect(() => {
                 to="/contact"
                 className="relative group"
               >
-                Contact
+                Contact & Review
 
                 <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[#C3A274] transition-all duration-300 group-hover:w-full"></span>
 

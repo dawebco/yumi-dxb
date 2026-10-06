@@ -1,304 +1,206 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { subscribeToNewsletter } from "../../firebase/newsletterService";
-import {
-  FiInstagram,
-  FiPhone,
-  FiMail,
-  FiMapPin,
-} from "react-icons/fi";
-import { FaWhatsapp } from "react-icons/fa";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
-const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-const handleSubscribe = async () => {
-  if (!email.trim()) {
-    alert("Please enter your email.");
-    return;
-  }
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+    if (!email.trim()) {
+      alert("Please enter your email.");
+      return;
+    }
 
-  try {
-    setLoading(true);
+    try {
+      setLoading(true);
+      await subscribeToNewsletter(email);
+      alert("Thank you for joining the YUMI private circle!");
+      setEmail("");
+    } catch (err) {
+      alert(err.message || "Failed to subscribe.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    await subscribeToNewsletter(email);
-
-    alert("Subscribed successfully!");
-
-    setEmail("");
-  } catch (err) {
-    alert(err.message);
-  } finally {
-    setLoading(false);
-  }
-};
   return (
-    <footer className="bg-[#22201D] text-white">
-
-      {/* Main Footer */}
-
-      <div className="max-w-7xl mx-auto px-8 py-20">
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
-
-          {/* Brand */}
-
+    <footer className="bg-white text-neutral-900 border-t border-neutral-200">
+      {/* Editorial 3-Column Section matching mockup reference */}
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 py-16 sm:py-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 sm:gap-16">
+          {/* Column 1: Contacts */}
           <div>
-
-            <h2 className="text-4xl font-serif mb-6">
-              YUMI
-            </h2>
-
-            <p className="text-gray-300 leading-8">
-              Where comfort meets elegance.
-              Crafted with love by two sisters,
-              bringing timeless fashion to every woman.
-            </p>
-
-          </div>
-
-          {/* About */}
-
-          <div>
-
-            <h3 className="font-semibold text-lg mb-6">
-              About
+            <h3 className="font-editorial text-xl sm:text-2xl font-bold text-[#7E222A] tracking-tight mb-6">
+              Contacts
             </h3>
-
-            <ul className="space-y-4 text-gray-300">
-
+            <ul className="space-y-3 text-xs sm:text-sm text-neutral-600 font-light">
               <li>
-                <Link to="/our-story" className="hover:text-[#C3A274] transition">
-                  Our Story
-                </Link>
-              </li>
-
-              <li>
-                <Link to="/our-story" className="hover:text-[#C3A274] transition">
-                  Why Choose YUMI
-                </Link>
-              </li>
-
-              <li>
-                <Link to="/contact" className="hover:text-[#C3A274] transition">
-                  Contact
-                </Link>
-              </li>
-
-            </ul>
-
-          </div>
-
-          {/* Shop */}
-
-          <div>
-
-            <h3 className="font-semibold text-lg mb-6">
-              Shop
-            </h3>
-
-            <ul className="space-y-4 text-gray-300">
-
-              <li><Link to="/shop">All Products</Link></li>
-              <li><Link to="/nightwear">Nightwear</Link></li>
-              <li><Link to="/abayas">Abayas</Link></li>
-              <li><Link to="/kaftans">Kaftans</Link></li>
-              <li><Link to="/coord-sets">Co-ord Sets</Link></li>
-              <li><Link to="/new-arrivals">New Arrivals</Link></li>
-
-            </ul>
-
-          </div>
-
-          {/* Customer Care */}
-
-          <div>
-
-            <h3 className="font-semibold text-lg mb-6">
-              Customer Care
-            </h3>
-
-            <ul className="space-y-4 text-gray-300">
-
-              <li><Link to="/faq">FAQs</Link></li>
-              <li><Link to="/shipping">Shipping</Link></li>
-              <li><Link to="/returns">Returns</Link></li>
-              <li><Link to="/privacy">Privacy Policy</Link></li>
-              <li><Link to="/terms">Terms & Conditions</Link></li>
-
-            </ul>
-
-          </div>
-
-          {/* Contact */}
-
-          <div>
-
-            <h3 className="font-semibold text-lg mb-6">
-              Stay Connected
-            </h3>
-
-            <div className="space-y-5 text-gray-300">
-
-              <div className="flex items-center gap-3">
-                <FiPhone />
                 <a
-                  href="tel:+91 7340558926"
-                  className="hover:text-[#C3A274] transition"
+                  href="tel:+917349558926"
+                  className="hover:text-black transition"
                 >
-                  +91 7340558926
+                  +91 73495 58926 (Customer Care)
                 </a>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <FiMail />
+              </li>
+              <li>
                 <a
-                  href="mailto:yumidxb@gmail.com"
-                  className="hover:text-[#C3A274] transition"
+                  href="tel:+919591308536"
+                  className="hover:text-black transition"
                 >
-                  yumidxb@gmail.com
+                  +91 95913 08536 (Head Office)
                 </a>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <FiMapPin />
+              </li>
+              <li>
                 <a
-                  href="https://maps.google.com/?q=Mangaluru,India"
+                  href="mailto:care.yumidxb@gmail.com"
+                  className="hover:text-black transition"
+                >
+                  care.yumidxb@gmail.com
+                </a>
+              </li>
+              <li className="pt-2">
+                <a
+                  href="https://www.instagram.com/yumi_dxb"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-[#C3A274] transition"
+                  className="hover:text-black transition inline-flex items-center gap-1 font-normal text-neutral-800"
                 >
-                  Mangaluru, India
+                  Instagram <span>→</span>
                 </a>
-              </div>
-
-            </div>
-
-           {/* Social */}
-
-<div className="mt-8">
-
-  <p className="text-gray-400 mb-3 text-sm font-medium">
-    Follow Us
-  </p>
-
-  <div className="flex gap-4">
-
-    <a
-      href="https://www.instagram.com/yumi_dxb"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Instagram"
-      className="w-11 h-11 rounded-full border border-gray-500 flex items-center justify-center hover:bg-[#C3A274] hover:border-[#C3A274] hover:text-[#22201D] hover:-translate-y-1 transition-all duration-300"
-    >
-      <FiInstagram size={20} />
-    </a>
-
-    <a
-      href="https://wa.me/+917340558926"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="WhatsApp"
-      className="w-11 h-11 rounded-full border border-gray-500 flex items-center justify-center hover:bg-[#25D366] hover:border-[#25D366] hover:text-white hover:-translate-y-1 transition-all duration-300"
-    >
-      <FaWhatsapp size={20} />
-    </a>
-
-    <a
-      href="mailto:care.yumidxb@gmail.com"
-      aria-label="Email"
-      className="w-11 h-11 rounded-full border border-gray-500 flex items-center justify-center hover:bg-[#465348] hover:border-[#465348] hover:-translate-y-1 transition-all duration-300"
-    >
-      <FiMail size={20} />
-    </a>
-
-  </div>
-
-</div>
-
+              </li>
+              <li>
+                <a
+                  href="https://wa.me/917349558926"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-black transition inline-flex items-center gap-1 font-normal text-neutral-800"
+                >
+                  WhatsApp (+91 73495 58926) <span>→</span>
+                </a>
+              </li>
+              <li className="pt-3 text-[11px] text-neutral-400">
+                Mangaluru, Karnataka, India
+              </li>
+            </ul>
           </div>
 
-        </div>
-
-      </div>
-
-      {/* Newsletter */}
-
-      <div className="border-t border-gray-700">
-
-        <div className="max-w-7xl mx-auto px-8 py-16 flex flex-col lg:flex-row items-center justify-between gap-8">
-
+          {/* Column 2: Catalog */}
           <div>
-
-            <h3 className="text-3xl font-serif">
-              Join the YUMI Family
+            <h3 className="font-editorial text-xl sm:text-2xl font-bold text-[#7E222A] tracking-tight mb-6">
+              Catalog
             </h3>
-
-            <p className="text-gray-400 mt-3">
-              Get exclusive offers and new arrivals directly to your inbox.
-            </p>
-
+            <ul className="space-y-3 text-xs sm:text-sm text-neutral-600 font-light">
+              <li>
+                <Link to="/shop" className="hover:text-black transition">
+                  All Collections
+                </Link>
+              </li>
+              <li>
+                <Link to="/abayas" className="hover:text-black transition">
+                  Abayas
+                </Link>
+              </li>
+              <li>
+                <Link to="/nightwear" className="hover:text-black transition">
+                  Nightwear & Loungewear
+                </Link>
+              </li>
+              <li>
+                <Link to="/kaftans" className="hover:text-black transition">
+                  Kaftans
+                </Link>
+              </li>
+              <li>
+                <Link to="/coord-sets" className="hover:text-black transition">
+                  Co-ord Sets
+                </Link>
+              </li>
+              <li>
+                <Link to="/new-arrivals" className="hover:text-black transition">
+                  New Arrivals
+                </Link>
+              </li>
+              <li>
+                <Link to="/best-sellers" className="hover:text-black transition">
+                  Bestsellers
+                </Link>
+              </li>
+            </ul>
           </div>
 
-          <div className="flex w-full lg:w-auto">
+          {/* Column 3: Customer Care */}
+          <div>
+            <h3 className="font-editorial text-xl sm:text-2xl font-bold text-[#7E222A] tracking-tight mb-6">
+              Customer Care
+            </h3>
+            <ul className="space-y-3 text-xs sm:text-sm text-neutral-600 font-light">
+              <li>
+                <Link to="/our-story" className="hover:text-black transition">
+                  About the Brand
+                </Link>
+              </li>
+              <li>
+                <Link to="/faq" className="hover:text-black transition">
+                  How to Place an Order
+                </Link>
+              </li>
+              <li>
+                <Link to="/shipping" className="hover:text-black transition">
+                  Shipping & Delivery
+                </Link>
+              </li>
+              <li>
+                <Link to="/returns" className="hover:text-black transition">
+                  7-Day Returns & Exchanges
+                </Link>
+              </li>
+              <li>
+                <Link to="/privacy" className="hover:text-black transition">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link to="/terms" className="hover:text-black transition">
+                  Terms & Conditions
+                </Link>
+              </li>
+            </ul>
 
-            <input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="bg-transparent border border-gray-600 px-5 py-3 rounded-l-full w-full lg:w-80 outline-none"
-            />
-
-            <button
-              onClick={handleSubscribe}
-              disabled={loading}
-              className="bg-[#465348] hover:bg-[#39443A] px-8 rounded-r-full transition disabled:opacity-60"
-            >
-              {loading ? "Subscribing..." : "Subscribe"}
-            </button>
-
+            {/* Newsletter input */}
+            <form onSubmit={handleSubscribe} className="mt-8">
+              <p className="text-xs uppercase tracking-[0.2em] text-neutral-500 mb-2 font-medium">
+                Newsletter
+              </p>
+              <div className="flex border border-neutral-300">
+                <input
+                  type="email"
+                  placeholder="Your email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="px-3 py-2 text-xs w-full outline-none bg-transparent"
+                />
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="px-4 py-2 bg-black text-white text-[11px] uppercase tracking-wider hover:bg-neutral-800 transition disabled:opacity-50"
+                >
+                  {loading ? "..." : "Join"}
+                </button>
+              </div>
+            </form>
           </div>
-
         </div>
-
       </div>
 
-      {/* Bottom */}
-
-      <div className="border-t border-gray-700">
-
-        <div className="max-w-7xl mx-auto px-8 py-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-400">
-
-          <p>
-            © 2026 YUMI DXB Fashion. All Rights Reserved.
-          </p>
-
-          <div className="flex gap-6">
-
-            <Link to="/privacy" className="hover:text-white">
-              Privacy
-            </Link>
-
-            <Link to="/terms" className="hover:text-white">
-              Terms
-            </Link>
-
-            <Link to="/shipping" className="hover:text-white">
-              Shipping
-            </Link>
-
-            <Link to="/returns" className="hover:text-white">
-              Returns
-            </Link>
-
-          </div>
-
+      {/* Bottom Sub-footer */}
+      <div className="border-t border-neutral-100 py-6 text-xs text-neutral-400 font-light">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 flex flex-col sm:flex-row justify-between items-center gap-3">
+          <p>© 2024–2026 YUMI DXB Fashion. All rights reserved.</p>
+          <p className="tracking-wide">Where Comfort Meets Elegance</p>
         </div>
-
       </div>
-
     </footer>
   );
 }

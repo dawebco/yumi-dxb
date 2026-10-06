@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const messages = [
-  "Call / WhatsApp: +91 7340558926",
+  "Customer Care / WhatsApp: +91 7349558926",
   "Follow Us @yumi_dxb on Instagram",
 ];
 
