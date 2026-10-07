@@ -250,7 +250,7 @@ export default function ProductForm() {
           <div className="grid grid-cols-3 gap-5">
             <div>
               <label className="text-sm text-[#6F6A65] mb-1 block">
-                Selling Price (AED) *
+                Selling Price (₹) *
               </label>
               <input
                 type="number"
@@ -263,7 +263,7 @@ export default function ProductForm() {
 
             <div>
               <label className="text-sm text-[#6F6A65] mb-1 block">
-                Cost Price (AED)
+                Cost Price (₹)
               </label>
               <input
                 type="number"

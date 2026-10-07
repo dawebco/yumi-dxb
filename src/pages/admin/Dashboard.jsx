@@ -167,7 +167,7 @@ export default function Dashboard() {
   }, []);
 
   const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-AE', { style: 'currency', currency: 'AED' }).format(amount);
+    return `₹${Number(amount || 0).toLocaleString('en-IN')}`;
   };
 
   const formatDate = (dateObj) => {

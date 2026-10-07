@@ -168,7 +168,7 @@ export default function SalesStockProfit() {
 
   const formatCurrency = (val) => {
     if (val === undefined || val === null) return '—';
-    return `AED ${val.toLocaleString()}`;
+    return `₹${Number(val).toLocaleString('en-IN')}`;
   };
 
   if (loading) {
@@ -313,7 +313,7 @@ export default function SalesStockProfit() {
                         <td rowSpan={row.rowSpan} className="px-6 py-4 align-top border-r border-[#ECE8E3] bg-white group">
                           {editingId === row.productId ? (
                             <div className="flex items-center gap-2">
-                              <span className="text-sm text-[#6F6A65]">AED</span>
+                              <span className="text-sm text-[#6F6A65]">₹</span>
                               <input 
                                 type="number" 
                                 value={editCost}

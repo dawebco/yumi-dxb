@@ -189,7 +189,7 @@ const CustomerOrders = () => {
           </div>
           <div className="bg-white rounded-2xl border border-[#ECE8E3] p-6 flex flex-col justify-center">
             <span className="text-[#8A8178] text-sm uppercase tracking-wider mb-1">Total Amount</span>
-            <span className="text-3xl font-serif text-[#2E2A27]">AED {totalAmount.toFixed(2)}</span>
+            <span className="text-3xl font-serif text-[#2E2A27]">₹{Number(totalAmount || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
           </div>
         </div>
 
@@ -283,7 +283,7 @@ const CustomerOrders = () => {
                         {row.item?.quantity || 0}
                       </td>
                       <td className="px-6 py-4 font-medium text-[#2E2A27]">
-                        AED {row.total?.toFixed(2) || '0.00'}
+                        ₹{Number(row.total || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       </td>
                       <td className="px-6 py-4">
                         <span className={`px-3 py-1 rounded-full text-xs font-medium ${getPaymentStatusColor(row.paymentStatus)}`}>
