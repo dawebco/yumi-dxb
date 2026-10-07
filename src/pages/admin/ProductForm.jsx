@@ -39,6 +39,7 @@ export default function ProductForm() {
     name: "",
     description: "",
     price: "",
+    costPrice: "",
     fabric: "",
     careInstructions: "",
     category: CATEGORIES[0],
@@ -70,6 +71,7 @@ export default function ProductForm() {
           name: product.name || "",
           description: product.description || "",
           price: product.price || "",
+          costPrice: product.costPrice || "",
           fabric: product.fabric || "",
           careInstructions: product.careInstructions || "",
           category: product.category || CATEGORIES[0],
@@ -189,6 +191,7 @@ export default function ProductForm() {
       const payload = {
         ...form,
         price: Number(form.price),
+        costPrice: form.costPrice ? Number(form.costPrice) : null,
         images: finalImages,
         bestSeller,
       };
@@ -244,10 +247,10 @@ export default function ProductForm() {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-5">
+          <div className="grid grid-cols-3 gap-5">
             <div>
               <label className="text-sm text-[#6F6A65] mb-1 block">
-                Price (₹) *
+                Selling Price (AED) *
               </label>
               <input
                 type="number"
@@ -255,6 +258,19 @@ export default function ProductForm() {
                 onChange={(e) => handleChange("price", e.target.value)}
                 className="w-full px-4 py-3 rounded-xl border border-[#ECE8E3] outline-none focus:border-[#465348]"
                 required
+              />
+            </div>
+
+            <div>
+              <label className="text-sm text-[#6F6A65] mb-1 block">
+                Cost Price (AED)
+              </label>
+              <input
+                type="number"
+                value={form.costPrice}
+                onChange={(e) => handleChange("costPrice", e.target.value)}
+                placeholder="For profit tracking"
+                className="w-full px-4 py-3 rounded-xl border border-[#ECE8E3] outline-none focus:border-[#465348]"
               />
             </div>
 

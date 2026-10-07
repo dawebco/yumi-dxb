@@ -54,6 +54,8 @@ import Newsletter from "../pages/admin/Newsletter";
 import CancelledOrders from "../pages/admin/CancelledOrders";
 import Addresses from "../pages/customer/Addresses";
 import DiscountProduct from "../pages/admin/DiscountProduct";
+import CustomerOrders from "../pages/admin/CustomerOrders";
+import SalesStockProfit from "../pages/admin/SalesStockProfit";
 import AdminLogin from "../pages/admin/AdminLogin";
 function CustomerLayout({ children }) {
   return (
@@ -137,6 +139,8 @@ export default function AppRoutes() {
         <Route path="newsletter" element={<Newsletter />} />
 
     <Route path="cancelled-orders" element={<CancelledOrders />} />
+    <Route path="customer-orders" element={<CustomerOrders />} />
+    <Route path="sales-profit" element={<SalesStockProfit />} />
 
 <Route
   path="products/discount/:id"

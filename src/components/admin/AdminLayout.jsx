@@ -15,6 +15,8 @@ import {
   FiMessageSquare,
   FiRotateCcw,
   FiXCircle,
+  FiClipboard,
+  FiTrendingUp,
 } from "react-icons/fi";
 
 const links = [
@@ -22,9 +24,11 @@ const links = [
   { to: "/admin/products", label: "Products", icon: FiBox },
   { to: "/admin/inventory", label: "Inventory", icon: FiPackage },
   { to: "/admin/orders", label: "Orders", icon: FiShoppingBag },
+  { to: "/admin/customer-orders", label: "Customer & Orders", icon: FiClipboard },
   { to: "/admin/cancelled-orders", label: "Cancelled Orders", icon: FiXCircle },
   { to: "/admin/returns", label: "Returns", icon: FiRotateCcw },
   { to: "/admin/customers", label: "Customers", icon: FiUsers },
+  { to: "/admin/sales-profit", label: "Sales & Profit", icon: FiTrendingUp },
   { to: "/admin/messages", label: "Messages", icon: FiMessageSquare },
   { to: "/admin/reviews", label: "Reviews", icon: FiStar },
   { to: "/admin/coupons", label: "Coupons", icon: FiTag },
