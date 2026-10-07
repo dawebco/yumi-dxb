@@ -79,8 +79,10 @@ export default function BestSellers() {
 
   const handleQuickAdd = async (product) => {
     try {
-      await addToCart(product, "M", 1);
-      alert(`${product.name} added to your bag!`);
+      const added = await addToCart(product, "M", 1);
+      if (added) {
+        alert(`${product.name} added to your bag!`);
+      }
     } catch {
       // fallback
     }

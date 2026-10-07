@@ -18,7 +18,7 @@ import {
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
-  const { user } = useAuth();
+  const { user, setAccountOpen } = useAuth();
 
   const [items, setItems] = useState([]);
 
@@ -42,8 +42,8 @@ export function CartProvider({ children }) {
     console.log("USER:", user);
     console.log("PRODUCT:", product);
     if (!user) {
-      alert("Please login first.");
-      return;
+      setAccountOpen(true);
+      return false;
     }
 
   const cartData = {
@@ -61,6 +61,7 @@ console.log("Cart Data:", cartData);
 await addCartItem(cartData);
 
     await loadCart();
+    return true;
   }
 
   async function updateQuantity(

@@ -19,6 +19,7 @@ import { getProductReviews } from "../../firebase/reviewService";
 import { useCart } from "../../context/CartContext";
 import Loader from "../../components/common/Loader";
 import { useRecentlyViewed } from "../../context/RecentlyViewedContext";
+import { useAuth } from "../../context/AuthContext";
 import RelatedProducts from "../../components/customer/RelatedProducts";
 import { getEstimatedDelivery } from "../../utils/deliveryDate";
 
@@ -26,6 +27,7 @@ export default function ProductDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const { user, setAccountOpen } = useAuth();
   const { addRecentlyViewed } = useRecentlyViewed();
 
   const [product, setProduct] = useState(null);
@@ -107,10 +109,10 @@ if (user && productData) {
     : 0;
     const estimatedDelivery = getEstimatedDelivery();
 const handleWishlist = async () => {
-  const user = auth.currentUser;
+  const currentUser = auth.currentUser || user;
 
-  if (!user) {
-    navigate("/login");
+  if (!currentUser) {
+    setAccountOpen(true);
     return;
   }
 
@@ -122,7 +124,7 @@ const handleWishlist = async () => {
       setWishlistId(null);
     } else {
       await addToWishlist({
-        userId: user.uid,
+        userId: currentUser.uid,
         productId: product.id,
         name: product.name,
         image: product.images?.[0],
@@ -132,7 +134,7 @@ const handleWishlist = async () => {
       });
 
       const addedItem = await getWishlistItem(
-        user.uid,
+        currentUser.uid,
         product.id
       );
 
@@ -154,6 +156,12 @@ const handleAddToCart = async () => {
     return;
   }
 
+  const currentUser = auth.currentUser || user;
+  if (!currentUser) {
+    setAccountOpen(true);
+    return;
+  }
+
   try {
     const finalProduct = {
       ...product,
@@ -162,7 +170,8 @@ const handleAddToCart = async () => {
         : product.price,
     };
 
-    await addToCart(finalProduct, size, quantity);
+    const success = await addToCart(finalProduct, size, quantity);
+    if (success === false) return;
 
     console.log("Added Successfully");
 

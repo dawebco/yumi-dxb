@@ -30,12 +30,11 @@ export default function Navbar() {
 
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [accountOpen, setAccountOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [wishlistCount, setWishlistCount] = useState(0);
   
   
-  const { user } = useAuth();
+  const { user, accountOpen, setAccountOpen } = useAuth();
   const { totalItems } = useCart();
 
   
@@ -340,7 +339,15 @@ useEffect(() => {
       onClick={() => setAccountOpen(false)}
     ></div>
 
-    <div className="absolute right-8 top-28 w-80 bg-white rounded-3xl shadow-2xl p-8">
+    <div className="absolute right-4 sm:right-8 top-20 sm:top-28 w-[calc(100%-2rem)] sm:w-80 max-w-sm bg-white rounded-3xl shadow-2xl p-8 z-10 transition-all">
+
+      <button
+        onClick={() => setAccountOpen(false)}
+        className="absolute top-6 right-6 text-neutral-400 hover:text-neutral-700 transition p-1"
+        aria-label="Close"
+      >
+        <FiX size={20} />
+      </button>
 
       {user ? (
         <>
@@ -355,7 +362,7 @@ useEffect(() => {
           <Link
             to="/profile"
             onClick={() => setAccountOpen(false)}
-            className="block mt-8 w-full text-center py-3 rounded-full border border-[#2E2A27] hover:bg-[#2E2A27] hover:text-white transition"
+            className="block mt-8 w-full text-center py-3 rounded-full border border-[#2E2A27] hover:bg-[#2E2A27] hover:text-white transition font-medium"
           >
             My Profile
           </Link>
@@ -366,7 +373,7 @@ useEffect(() => {
               setAccountOpen(false);
               navigate("/login", { replace: true });
             }}
-            className="block mt-4 w-full text-center py-3 rounded-full bg-[#465348] text-white hover:bg-[#39443A] transition"
+            className="block mt-4 w-full text-center py-3 rounded-full bg-[#465348] text-white hover:bg-[#39443A] transition font-medium"
           >
             Logout
           </button>
@@ -384,7 +391,7 @@ useEffect(() => {
           <Link
             to="/login"
             onClick={() => setAccountOpen(false)}
-            className="block mt-8 w-full text-center py-3 rounded-full bg-[#465348] text-white hover:bg-[#39443A] transition"
+            className="block mt-8 w-full text-center py-3 rounded-full bg-[#465348] text-white hover:bg-[#39443A] transition font-medium"
           >
             Login
           </Link>
@@ -392,7 +399,7 @@ useEffect(() => {
           <Link
             to="/signup"
             onClick={() => setAccountOpen(false)}
-            className="block mt-4 w-full text-center py-3 rounded-full border border-[#2E2A27] hover:bg-[#2E2A27] hover:text-white transition"
+            className="block mt-4 w-full text-center py-3 rounded-full border border-[#2E2A27] hover:bg-[#2E2A27] hover:text-white transition font-medium"
           >
             Create Account
           </Link>
